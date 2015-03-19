@@ -1,0 +1,96 @@
+input[type="button"] {
+	padding: 2px;
+	border: none;
+	background-color: #EEEEEE;
+}
+
+input[type="button"].out {
+	padding: 2px;
+	border: none;
+	background-color: #EEEEEE;
+}
+
+input[type="button"].over {
+	padding: 2px;
+	border: none;
+	background-color: #B0E0E6;
+	cursor: pointer;
+}
+
+input[type="button"].down {
+	padding: 2px;
+	border: none;
+	background-color: #EEEEEE;
+}
+
+input[type="button"].up {
+	padding: 2px;
+	border: none;
+	background-color: #EEEEEE;
+}
+
+input[type="submit"] {
+	padding: 2px;
+	border: none;
+	background-color: #EEEEEE;
+}
+
+input[type="submit"].out {
+	padding: 2px;
+	border: none;
+	background-color: #EEEEEE;
+}
+
+input[type="submit"].over {
+	padding: 2px;
+	border: none;
+	background-color: #B0E0E6;
+	cursor: pointer;
+}
+
+input[type="submit"].down {
+	padding: 2px;
+	border: none;
+	background-color: #EEEEEE;
+}
+
+input[type="submit"].up {
+	padding: 2px;
+	border: none;
+	background-color: #EEEEEE;
+}
+
+input[type="reset"] {
+	padding: 2px;
+	border: none;
+	background-color: #EEEEEE;
+}
+
+input[type="reset"].out {
+	padding: 2px;
+	border: none;
+	background-color: #EEEEEE;
+}
+
+input[type="reset"].over {
+	padding: 2px;
+	border: none;
+	background-color: #B0E0E6;
+	cursor: pointer;
+}
+
+input[type="reset"].down {
+	padding: 2px;
+	border: none;
+	background-color: #EEEEEE;
+}
+
+input[type="reset"].up {
+	padding: 2px;
+	border: none;
+	background-color: #EEEEEE;
+}
+
+input[type="text"] {
+	border: 1px #D3D3D3 solid;
+}

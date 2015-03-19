@@ -1,0 +1,114 @@
+li {
+	list-style: none;
+}
+
+.clearfix:after {
+	content: "&nbsp;";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+div.menubar {
+	width: 100%;
+	height: 100%;
+	background-color: #E6E6FA;
+	margin: 0 auto;
+}
+
+.menusel {
+	float: left;
+	width: 100px;
+	position: relative;
+	height: 20px;
+	background-color: #E6E6FA;
+	line-height: 20px;
+	margin-top: -1px;
+}
+
+.menusel h2 {
+	font-size: 12px;
+}
+
+.menusel a {
+	display: block;
+	text-align: center;
+	width: 100px;
+	border: 1px solid #FFFFFF;
+	height: 20px;
+	position: relative;
+	z-index: 2;
+}
+
+.menusel a:hover {
+	border: 1px solid #FFFFFF;
+	background-color: #B0E0E6;
+	position: relative;
+	z-index: 2;
+	height: 20px;
+}
+
+.ahover a {
+	border-bottom: 1px dashed #EEEEEE;
+	background: #EEEEEE;
+}
+
+.position {
+	position: absolute;
+	z-index: 1;
+}
+
+.menusel ul {
+	width: 100px;
+	background-color: #E6E6FA;
+	border: 1px solid #FFFFFF;
+	margin-top: -1px;
+	position: relative;
+	z-index: 1;
+	display: none;
+}
+
+.menusel .block {
+	display: block;
+}
+
+.typeul li {
+	border-bottom: 1px solid #FFFFFF;
+	width: 100px;
+	position: relative;
+	float: left;
+}
+
+.typeul li a {
+	border: none;
+	width: 100px;
+}
+
+.typeul li a:hover {
+	border: none;
+	background-color: #B0E0E6;
+}
+
+.typeul {
+	margin-left: 0;
+}
+
+.typeul ul {
+	left: 100px;
+	top: 0;
+	position: absolute;
+}
+
+.fli {
+	margin-left: -1px;
+	border-left: #EEEEEE solid 1px;
+}
+
+.menusel .lli {
+	border-left: #FFFFFF solid 1px;
+}

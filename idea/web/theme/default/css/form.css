@@ -1,0 +1,37 @@
+table.form {
+	border: 1px #F5F5F5 solid;
+	width: 100%;
+}
+
+table.form tr.item {
+	font-size: 14px;
+	white-space:nowrap;
+}
+
+table.form tr.item td.label {
+	width: 30%;
+	background-color: #D3D3D3;
+	text-align: right;
+	vertical-align: top;
+	font-weight: bold;
+	font-size: 14px;
+	white-space:nowrap;
+}
+
+table.form tr.item td.input {
+	width: 70%;
+	background-color: #FFFFFF;
+	text-align: left;
+	vertical-align: top;
+	font-size: 14px;
+	white-space:nowrap;
+}
+
+table.form tr.item td.submit {
+	width: 70%;
+	background-color: #FFFFFF;
+	text-align: right;
+	vertical-align: top;
+	font-size: 14px;
+	white-space:nowrap;
+}

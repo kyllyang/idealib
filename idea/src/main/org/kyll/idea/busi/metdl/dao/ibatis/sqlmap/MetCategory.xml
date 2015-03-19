@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MetCategory">
+
+	<resultMap id="MetCategory-result" class="MetCategory">
+		<result property="id" column="ID_" javaType="java.lang.String" jdbcType="varchar" nullValue=""/>
+		<result property="name" column="NAME_" javaType="java.lang.String" jdbcType="varchar" nullValue=""/>
+		<result property="sort" column="SORT_" javaType="java.lang.Integer" jdbcType="number" nullValue=""/>
+	</resultMap>
+
+	<resultMap id="MetCategoryHis-result" class="MetCategoryHis">
+		<result property="id" column="ID_" javaType="java.lang.String" jdbcType="varchar" nullValue=""/>
+		<result property="metCategory" column="CATEGORY_" select="MetCategory.selectMetCategoryById"/>
+		<result property="mergeName" column="MERGE_NAME_" javaType="java.lang.String" jdbcType="number" nullValue=""/>
+	</resultMap>
+
+	<select id="selectMetCategoryCount" resultClass="java.lang.Integer">
+		select count(t.id_) from busi_metdl_category t
+	</select>
+
+	<select id="selectMetCategoryList" parameterClass="Paginated" resultMap="MetCategory-result">
+		<isNotNull>
+			select *
+			  from (select rownum rn, t.*
+					  from (
+		</isNotNull>
+					    select * from busi_metdl_category t0 order by t0.sort_ asc, t0.id_ asc
+		<isNotNull>
+					  ) t
+			<![CDATA[
+					where rownum <= #startRecord# + #maxRecord#)
+			]]>
+			where rn > #startRecord#
+		</isNotNull>
+	</select>
+
+	<select id="selectMetCategoryById" parameterClass="java.lang.String" resultMap="MetCategory-result">
+		select * from busi_metdl_category t where t.id_ = #value#
+	</select>
+
+	<select id="selectMetCategoryByName" parameterClass="java.lang.String" resultMap="MetCategory-result">
+		select * from busi_metdl_category t where t.name_ = #value#
+	</select>
+
+	<select id="selectMetCategoryHisByName" parameterClass="java.lang.String" resultMap="MetCategoryHis-result">
+		select * from busi_metdl_categoryhis t where t.merge_name_ = #value#
+	</select>
+
+	<select id="selectMetCategoryBySortLessThan" parameterClass="java.lang.Integer" resultMap="MetCategory-result">
+		<![CDATA[
+			select
+				*
+			from
+				busi_metdl_category t
+			where
+				t.sort_ = (select max(tt.sort_) from busi_metdl_category tt where tt.sort_ < #value#)
+		]]>
+	</select>
+
+	<select id="selectMetCategoryBySortGreaterThan" parameterClass="java.lang.Integer" resultMap="MetCategory-result">
+		<![CDATA[
+			select
+				*
+			from
+				busi_metdl_category t
+			where
+				t.sort_ = (select min(tt.sort_) from busi_metdl_category tt where tt.sort_ > #value#)
+		]]>
+	</select>
+
+	<insert id="insertMetCategory" parameterClass="MetCategory">
+		<selectKey resultClass="string" keyProperty="id" type="pre">
+			select sys_guid() as id from dual
+		</selectKey>
+			insert into busi_metdl_category
+				(id_, name_, sort_)
+			values
+				(#id#, #name#, (select nvl(max(t.sort_), 0) + 1 from busi_metdl_category t))
+	</insert>
+
+	<insert id="insertMetCategoryHis" parameterClass="MetCategoryHis">
+		<selectKey resultClass="string" keyProperty="id" type="pre">
+			select sys_guid() as id from dual
+		</selectKey>
+			insert into busi_metdl_categoryhis
+				(id_, category_, merge_name_)
+			values
+				(#id#, #metCategory.id#, #mergeName#)
+	</insert>
+
+	<update id="updateMetCategoryById" parameterClass="MetCategory">
+		update busi_metdl_category
+		   set name_ = #name#, sort_ = #sort#
+		 where id_ = #id#
+	</update>
+
+	<delete id="deleteMetCategoryById" parameterClass="java.lang.String">
+		delete from busi_metdl_category t where t.id_ = #value#
+	</delete>
+
+	<delete id="deleteMetCategoryHisByCategory" parameterClass="java.lang.String">
+		delete from busi_metdl_categoryhis t where t.category_ = #value#
+	</delete>
+
+</sqlMap>

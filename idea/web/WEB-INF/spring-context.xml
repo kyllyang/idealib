@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+
+	<!-- ibatis START ====================================================== -->
+	<bean id="dataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+		<property name="uniqueResourceName" value="oracle/orcl"/>
+		<property name="xaDataSourceClassName" value="${jdbc.xa.driverClassName}"/>
+		<property name="xaProperties">
+			<props>
+				<prop key="URL">${jdbc.url}</prop>
+				<prop key="user">${jdbc.username}</prop>
+				<prop key="password">${jdbc.password}</prop>
+			</props>
+		</property>
+		<property name="maxPoolSize" value="150"/>
+		<property name="minPoolSize" value="50"/>
+		<property name="reapTimeout" value="0"/>
+		<property name="testQuery" value="select 1 from dual"/>
+	</bean>
+
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean"
+	      p:dataSource-ref="dataSource"
+	      p:configLocation="classpath:sqlmap-config.xml"
+		/>
+
+	<bean id="sqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate"
+	      p:sqlMapClient-ref="sqlMapClient"
+		/>
+	<!-- ibatis END ======================================================== -->
+
+	<!-- transaction START ================================================= -->
+	<!--<bean id="localLogAdministrator" class="com.atomikos.icatch.admin.imp.LocalLogAdministrator"/>-->
+
+	<!--
+	<bean id="userTransactionService" class="com.atomikos.icatch.config.UserTransactionServiceImp" init-method="init" destroy-method="shutdownForce">
+		<constructor-arg>
+			<props>
+				<prop key="com.atomikos.icatch.service">com.atomikos.icatch.standalone.UserTransactionServiceFactory</prop>
+				<prop key="com.atomikos.icatch.console_log_level">WARN</prop>
+			</props>
+		</constructor-arg>
+		<property name="initialLogAdministrators">
+			<list>
+				<ref bean="localLogAdministrator"/>
+			</list>
+		</property>
+	</bean>
+	-->
+
+	<bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager"
+	      init-method="init" destroy-method="close" p:forceShutdown="false" p:transactionTimeout="1200"
+		/>
+
+	<bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp"
+	      p:transactionTimeout="1200"
+		/>
+
+	<bean id="jtaTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager"
+	      p:transactionManager-ref="atomikosTransactionManager"
+	      p:userTransaction-ref="atomikosUserTransaction"
+	      p:defaultTimeout="1200"
+		/>
+
+	<tx:advice id="txAdvice" transaction-manager="jtaTransactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" rollback-for="java.lang.Exception"/>
+			<tx:method name="*" rollback-for="java.lang.Exception" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:advisor pointcut="execution(* org.kyll.idea.*..*Facade.*(..))" advice-ref="txAdvice"/>
+	</aop:config>
+	<!-- transaction END =================================================== -->
+
+</beans>

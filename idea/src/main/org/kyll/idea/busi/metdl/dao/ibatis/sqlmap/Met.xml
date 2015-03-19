@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Met">
+
+	<resultMap id="Met-result" class="Met">
+		<result property="id" column="ID_" javaType="java.lang.String" jdbcType="varchar" nullValue=""/>
+		<result property="name" column="NAME_" javaType="java.lang.String" jdbcType="varchar" nullValue=""/>
+		<result property="uploadTime" column="UPLOAD_TIME_" javaType="java.util.Date" jdbcType="datetime"/>
+		<result property="updateTime" column="UPDATE_TIME_" javaType="java.util.Date" jdbcType="datetime" nullValue=""/>
+		<result property="status" column="STATUS_" javaType="java.lang.String" jdbcType="varchar" nullValue=""/>
+		<result property="imageUrl" column="IMAGE_URL_" javaType="java.lang.String" jdbcType="varchar" nullValue=""/>
+		<result property="metImage" column="IMAGE_ID_" select="Met.selectImageById"/>
+		<result property="metCategory" column="CATEGORY_ID_" select="MetCategory.selectMetCategoryById"/>
+		<result property="metUrlList" column="ID_" select="Met.selectUrlByMet"/>
+	</resultMap>
+
+	<resultMap id="MetUrl-result" class="MetUrl">
+		<result property="id" column="ID_" javaType="java.lang.String" jdbcType="varchar" nullValue=""/>
+		<result property="url" column="URL_" javaType="java.lang.String" jdbcType="varchar" nullValue=""/>
+		<result property="met" column="MET_ID_" select="Met.selectMetById"/>
+	</resultMap>
+
+	<resultMap id="MetImage-result" class="MetImage">
+		<result property="id" column="ID_" javaType="java.lang.String" jdbcType="varchar" nullValue=""/>
+		<result property="content" column="CONTENT_" jdbcType="blob"/>
+	</resultMap>
+
+	<select id="selectMetCount" resultClass="java.lang.Integer" parameterClass="Met">
+		select count(count(1))
+		  from busi_metdl_met t0
+		  join busi_metdl_category t1 on t0.category_id_ = t1.id_
+		  left join busi_metdl_url t2 on t0.id_ = t2.met_id_
+		 <dynamic prepend="where">
+			 <isNotEmpty property="metCategory.id" prepend="and">
+				 t0.category_id_ = #metCategory.id#
+			 </isNotEmpty>
+			 <isNotEmpty property="name" prepend="and">
+				 upper(t0.name_) like '%' || upper(#name#) || '%'
+			 </isNotEmpty>
+			 <isNotEmpty property="status" prepend="and">
+				 t0.status_ = #status#
+			 </isNotEmpty>
+			 <isNotEmpty property="searchStatus" prepend="and">
+				 t0.status_ in
+				 <iterate property="searchStatus" conjunction="," open="(" close=")">
+					#searchStatus[]#
+				 </iterate>
+			 </isNotEmpty>
+			 <isNotEmpty property="url" prepend="and">
+				 t2.url_ like '%$url$%'
+			 </isNotEmpty>
+		 </dynamic>
+		 group by t0.id_, t0.name_, t0.upload_time_, t0.update_time_, t0.status_, t0.category_id_, t0.image_url_, t1.sort_
+	</select>
+
+	<select id="selectMetList" parameterClass="java.util.Map" resultMap="Met-result">
+		<isNotNull property="paginated">
+			select *
+			  from (select rownum rn, t.*
+					  from (
+		</isNotNull>
+					    select t0.*
+						  from busi_metdl_met t0
+						  join busi_metdl_category t1 on t0.category_id_ = t1.id_
+						  left join busi_metdl_url t2 on t0.id_ = t2.met_id_
+						 <dynamic prepend="where">
+							 <isNotEmpty property="met.metCategory.id" prepend="and">
+								 t0.category_id_ = #met.metCategory.id#
+							 </isNotEmpty>
+							 <isNotEmpty property="met.name" prepend="and">
+								 upper(t0.name_) like '%' || upper(#met.name#) || '%'
+							 </isNotEmpty>
+							 <isNotEmpty property="met.status" prepend="and">
+								 t0.status_ = #met.status#
+							 </isNotEmpty>
+							 <isNotEmpty property="met.searchStatus" prepend="and">
+								 t0.status_ in
+								 <iterate property="met.searchStatus" conjunction="," open="(" close=")">
+								    #met.searchStatus[]#
+							     </iterate>
+							 </isNotEmpty>
+							 <isNotEmpty property="met.url" prepend="and">
+								 t2.url_ like '%$met.url$%'
+							 </isNotEmpty>
+						 </dynamic>
+						 group by t0.id_, t0.name_, t0.upload_time_, t0.update_time_, t0.status_, t0.category_id_, t0.image_url_, t0.image_id_, t1.sort_
+						 order by t1.sort_ asc, t0.category_id_ asc, t0.status_ asc, t0.update_time_ desc, t0.upload_time_ desc
+		<isNotNull property="paginated">
+					  ) t
+			<![CDATA[
+					where rownum <= #paginated.startRecord# + #paginated.maxRecord#)
+			]]>
+			where rn > #paginated.startRecord#
+		</isNotNull>
+	</select>
+
+	<select id="selectMetById" parameterClass="java.lang.String" resultMap="Met-result">
+		select * from busi_metdl_met t where t.id_ = #value#
+	</select>
+
+	<select id="selectMetByName" parameterClass="java.lang.String" resultMap="Met-result">
+		select * from busi_metdl_met t where t.name_ = #value#
+	</select>
+
+	<select id="selectMetByUploadTime" parameterClass="java.lang.String" resultMap="Met-result">
+		select * from busi_metdl_met t where to_char(t.upload_time_, 'yyyy-MM-dd HH:mm:ss') = #value#
+	</select>
+
+	<select id="selectUrlByMet" parameterClass="java.lang.String" resultMap="MetUrl-result">
+		select * from busi_metdl_url t where t.met_id_ = #value#
+	</select>
+
+	<select id="selectImageById" parameterClass="java.lang.String" resultMap="MetImage-result">
+		select * from busi_metdl_image t where t.id_ = #value#
+	</select>
+
+	<insert id="insertMet" parameterClass="Met">
+		<selectKey resultClass="string" keyProperty="id" type="pre">
+			select sys_guid() as id from dual
+		</selectKey>
+		<![CDATA[
+			insert into busi_metdl_met
+				(id_, name_, upload_time_, update_time_, status_, category_id_, image_url_, image_id_)
+			values
+				(#id#, #name#, #uploadTime#, #updateTime#, #status#, #metCategory.id#, #imageUrl#, #metImage.id#)
+		]]>
+	</insert>
+
+	<insert id="insertUrl" parameterClass="MetUrl">
+		<selectKey resultClass="string" keyProperty="id" type="pre">
+			select sys_guid() as id from dual
+		</selectKey>
+		<![CDATA[
+			insert into busi_metdl_url
+				(id_, url_, met_id_)
+			values
+				(#id#, #url#, #met.id#)
+		]]>
+	</insert>
+
+	<insert id="insertImage" parameterClass="MetImage">
+		<selectKey resultClass="string" keyProperty="id" type="pre">
+			select sys_guid() as id from dual
+		</selectKey>
+		insert into busi_metdl_image
+			(id_, content_)
+		values
+			(#id#, #content#)
+	</insert>
+
+	<update id="updateMetById" parameterClass="Met">
+		update busi_metdl_met
+		   set NAME_ = #name#, UPLOAD_TIME_ = #uploadTime#, UPDATE_TIME_ = #updateTime#, STATUS_ = #status#, CATEGORY_ID_ = #metCategory.id#, image_url_ = #imageUrl#
+		 where id_ = #id#
+	</update>
+
+	<update id="updateMetUnfinishedStatus">
+		update busi_metdl_met t set t.STATUS_ = 4 where t.STATUS_ = 0 and (sysdate - t.update_time_) >= 1
+	</update>
+
+	<update id="updateMetCategoryByOldCategorys" parameterClass="java.util.Map">
+		update busi_metdl_met t set t.category_id_ = #newCategory# where t.category_id_ in
+		<iterate property="oldCategories" conjunction="," open="(" close=")">
+			#oldCategories[]#
+		</iterate>
+	</update>
+
+</sqlMap>

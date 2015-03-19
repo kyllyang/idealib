@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+
+	<settings
+			cacheModelsEnabled="true"
+			defaultStatementTimeout="1200"
+			enhancementEnabled="true"
+			lazyLoadingEnabled="true"
+			errorTracingEnabled="true"
+			maxRequests="512"
+			maxSessions="128"
+			maxTransactions="32"
+			useStatementNamespaces="true"
+			/>
+
+	<typeAlias alias="Paginated" type="org.kyll.common.paginated.Paginated"/>
+	<typeAlias alias="MetCategory" type="org.kyll.idea.busi.metdl.model.MetCategory"/>
+	<typeAlias alias="MetCategoryHis" type="org.kyll.idea.busi.metdl.model.MetCategoryHis"/>
+	<typeAlias alias="Met" type="org.kyll.idea.busi.metdl.model.Met"/>
+	<typeAlias alias="MetUrl" type="org.kyll.idea.busi.metdl.model.MetUrl"/>
+	<typeAlias alias="MetImage" type="org.kyll.idea.busi.metdl.model.MetImage"/>
+	<typeAlias alias="DigitalThree" type="org.kyll.idea.busi.lotto.model.DigitalThree"/>
+	<typeAlias alias="DoubleColor" type="org.kyll.idea.busi.lotto.model.DoubleColor"/>
+
+	<sqlMap resource="/org/kyll/idea/core/auth/dao/ibatis/sqlmap/Auth.xml"/>
+	<sqlMap resource="/org/kyll/idea/busi/metdl/dao/ibatis/sqlmap/Met.xml"/>
+	<sqlMap resource="/org/kyll/idea/busi/metdl/dao/ibatis/sqlmap/MetCategory.xml"/>
+	<sqlMap resource="/org/kyll/idea/busi/lotto/dao/ibatis/sqlmap/DigitalThree.xml"/>
+	<sqlMap resource="/org/kyll/idea/busi/lotto/dao/ibatis/sqlmap/DoubleColor.xml"/>
+
+</sqlMapConfig>

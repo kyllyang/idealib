@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DigitalThree">
+
+	<resultMap id="DigitalThree-result" class="DigitalThree">
+		<result property="id" column="ID_" javaType="java.lang.String" jdbcType="varchar"/>
+		<result property="date" column="DATE_" javaType="java.util.Date" jdbcType="datetime"/>
+		<result property="term" column="TERM_" javaType="java.lang.String" jdbcType="varchar"/>
+		<result property="digital0" column="DIGITAL0_" javaType="java.lang.Integer" jdbcType="number"/>
+		<result property="digital1" column="DIGITAL1_" javaType="java.lang.Integer" jdbcType="number"/>
+		<result property="digital2" column="DIGITAL2_" javaType="java.lang.Integer" jdbcType="number"/>
+	</resultMap>
+
+	<select id="selectDigitalTreeCount" resultClass="java.lang.Integer">
+		select count(t.id_) from busi_lotto_dt t
+	</select>
+
+	<select id="selectDigitalTreeList" parameterClass="Paginated" resultMap="DigitalThree-result">
+		<isNotNull>
+			select *
+			  from (select rownum rn, t.*
+					  from (
+		</isNotNull>
+					    select * from busi_lotto_dt t0 order by t0.term_ desc
+		<isNotNull>
+					  ) t
+			<![CDATA[
+					where rownum <= #startRecord# + #maxRecord#)
+			]]>
+			where rn > #startRecord#
+		</isNotNull>
+	</select>
+
+	<select id="selectDigitalTreeByTerm" parameterClass="java.lang.String" resultMap="DigitalThree-result">
+		select * from busi_lotto_dt t where t.term_ = #value#
+	</select>
+
+	<insert id="insertDigitalThree" parameterClass="DigitalThree">
+		<selectKey resultClass="string" keyProperty="id" type="pre">
+			select sys_guid() as id from dual
+		</selectKey>
+			insert into busi_lotto_dt
+				(id_, date_, term_, digital0_, digital1_, digital2_)
+			values
+				(#id#, #date#, #term#, #digital0#, #digital1#, #digital2#)
+	</insert>
+
+</sqlMap>

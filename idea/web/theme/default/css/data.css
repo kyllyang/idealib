@@ -1,0 +1,140 @@
+table.data {
+	border: none;
+	width: 100%;
+}
+
+table.data tr.header {
+	background-color: #D3D3D3;
+	font-size: 14px;
+	white-space:nowrap;
+}
+
+table.data tr.header td {
+	margin: 1px;
+	text-align: center;
+	vertical-align: top;
+	font-weight: bold;
+}
+
+table.data tr.odd {
+	background-color: #F5F5F5;
+	font-size: 14px;
+}
+
+table.data tr.even {
+	background-color: #FFFFFF;
+	font-size: 14px;
+}
+
+table.data tr.hightlight {
+	background-color: #AFEEEE;
+	font-size: 14px;
+}
+
+table.data tr.odd td.action {
+	text-align: center;
+	vertical-align: middle;
+}
+
+table.data tr.odd td.datetime {
+	text-align: center;
+	vertical-align: top;
+}
+
+table.data tr.odd td.image {
+	text-align: center;
+	vertical-align: middle;
+}
+
+table.data tr.odd td.no {
+	font-weight: bold;
+	text-align: left;
+	vertical-align: top;
+}
+
+table.data tr.odd td.number {
+	text-align: right;
+	vertical-align: top;
+}
+
+table.data tr.odd td.text {
+	text-align: left;
+	vertical-align: top;
+}
+
+table.data tr.odd td.widget {
+	text-align: left;
+	vertical-align: top;
+}
+
+table.data tr.even td.action {
+	text-align: center;
+	vertical-align: middle;
+}
+
+table.data tr.even td.datetime {
+	text-align: center;
+	vertical-align: top;
+}
+
+table.data tr.even td.image {
+	text-align: center;
+	vertical-align: middle;
+}
+
+table.data tr.even td.no {
+	font-weight: bold;
+	text-align: left;
+	vertical-align: top;
+}
+
+table.data tr.even td.number {
+	text-align: right;
+	vertical-align: top;
+}
+
+table.data tr.even td.text {
+	text-align: left;
+	vertical-align: top;
+}
+
+table.data tr.even td.widget {
+	text-align: left;
+	vertical-align: top;
+}
+
+table.data tr.hightlight td.action {
+	text-align: center;
+	vertical-align: middle;
+}
+
+table.data tr.hightlight td.datetime {
+	text-align: center;
+	vertical-align: top;
+}
+
+table.data tr.hightlight td.image {
+	text-align: center;
+	vertical-align: middle;
+}
+
+table.data tr.hightlight td.no {
+	font-weight: bold;
+	text-align: left;
+	vertical-align: top;
+}
+
+table.data tr.hightlight td.number {
+	text-align: right;
+	vertical-align: top;
+}
+
+table.data tr.hightlight td.text {
+	text-align: left;
+	vertical-align: top;
+}
+
+table.data tr.hightlight td.widget {
+	text-align: left;
+	vertical-align: top;
+}

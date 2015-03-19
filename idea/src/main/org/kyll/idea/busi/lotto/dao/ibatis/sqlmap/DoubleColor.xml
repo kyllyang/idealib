@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DoubleColor">
+
+	<resultMap id="DoubleColor-result" class="DoubleColor">
+		<result property="id" column="ID_" javaType="java.lang.String" jdbcType="varchar"/>
+		<result property="date" column="DATE_" javaType="java.util.Date" jdbcType="datetime"/>
+		<result property="term" column="TERM_" javaType="java.lang.String" jdbcType="varchar"/>
+		<result property="red0" column="RED0_" javaType="java.lang.Integer" jdbcType="number"/>
+		<result property="red1" column="RED1_" javaType="java.lang.Integer" jdbcType="number"/>
+		<result property="red2" column="RED2_" javaType="java.lang.Integer" jdbcType="number"/>
+		<result property="red3" column="RED3_" javaType="java.lang.Integer" jdbcType="number"/>
+		<result property="red4" column="RED4_" javaType="java.lang.Integer" jdbcType="number"/>
+		<result property="red5" column="RED5_" javaType="java.lang.Integer" jdbcType="number"/>
+		<result property="blue" column="BLUE_" javaType="java.lang.Integer" jdbcType="number"/>
+	</resultMap>
+
+</sqlMap>

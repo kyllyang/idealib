@@ -1,0 +1,17 @@
+@import url(layout.css);
+@import url(prompt.css);
+@import url(menu.css);
+@import url(data.css);
+@import url(form.css);
+@import url(link.css);
+@import url(widget.css);
+
+* {
+	padding: 0;
+	margin: 0;
+	font-size: 12px;
+}
+
+body {
+	text-align: center;
+}
