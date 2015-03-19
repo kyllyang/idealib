@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+
+	<description>kyll's common library</description>
+	<display-name>kcommon</display-name>
+	<tlib-version>0.1</tlib-version>
+	<short-name>kt</short-name>
+	<uri>http://www.kyll.org/java/common/taglib</uri>
+
+	<validator>
+		<description>Provides core validation features for JSTL tags.</description>
+		<validator-class>org.apache.taglibs.standard.tlv.JstlCoreTLV</validator-class>
+	</validator>
+
+	<tag>
+		<description>paginated list data</description>
+		<name>paginated</name>
+		<tag-class>org.kyll.common.web.taglib.PaginatedTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<description>paginated object</description>
+			<name>paginated</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>org.kyll.common.paginated.Paginated</type>
+		</attribute>
+		<attribute>
+			<description>if url start with 'formid', then execution form submit, else implements link</description>
+			<name>url</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>url parameter</description>
+			<name>params</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>onBeforeHref</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+</taglib>
