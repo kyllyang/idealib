@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script><![CDATA[
+		import mx.collections.ArrayCollection;
+
+		[Bindable]
+		private var pageSizeArrayCollection:ArrayCollection = new ArrayCollection(PrintPageSize.sizeArray);
+		[Bindable]
+		private var pageOrientationArrayCollection:ArrayCollection = new ArrayCollection(PrintPageSize.orientationArray);
+		[Bindable]
+		private var pageSizeDefaultSelectIndex:int = 0;
+		[Bindable]
+		private var pageOrientationDefaultSelectIndex:int = 0;
+
+		private function pageHeaderHandler(event:Event):void {
+
+		}
+
+		private function pageFooterHandler(event:Event):void {
+
+		}
+		]]></fx:Script>
+	<s:VGroup gap="1">
+		<s:HGroup gap="1">
+			<s:Label text="纸张规格" height="20" fontSize="14" verticalAlign="bottom"/>
+			<s:ComboBox dataProvider="{pageSizeArrayCollection}" labelField="name" selectedIndex="{pageSizeDefaultSelectIndex}"/>
+			<s:Label text="输出方向" height="20" fontSize="14" verticalAlign="bottom"/>
+			<s:ComboBox dataProvider="{pageOrientationArrayCollection}" labelField="name" selectedIndex="{pageOrientationDefaultSelectIndex}"/>
+			<s:Label text="页面边距" height="20" fontSize="14" verticalAlign="bottom"/>
+		</s:HGroup>
+		<s:HGroup gap="1">
+			<s:Label text="页面设置" height="20" fontSize="14" verticalAlign="bottom"/>
+			<s:CheckBox id="pageHeaderVisible" label="页眉" selected="false" change="pageHeaderHandler(event)" height="20" fontSize="14"/>
+			<s:CheckBox id="pageFooterVisible" label="页脚" selected="true" change="pageFooterHandler(event)" height="20" fontSize="14"/>
+		</s:HGroup>
+	</s:VGroup>
+</s:Group>

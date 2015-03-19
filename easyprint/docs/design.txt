@@ -1,0 +1,7 @@
+PrintView -+- PrintConfig
+           |
+           +- PrintArea -+- PrintHeader
+           |             |
+           |             +- PrintFooter
+           |
+           +- PrintCommand
